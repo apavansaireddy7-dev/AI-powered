@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaPulse AI — Water Quality Monitoring & Analysis Platform</title>
+    <meta name="description" content="AquaPulse AI is an AI-powered water quality monitoring and analysis platform providing real-time insights, pollution risk prediction, and actionable recommendations.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particles background layers -->
+    <div class="bg-bubbles" aria-hidden="true"></div>
+    <div class="bg-glow"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#home" class="logo">
+                <span class="logo-icon"><i class="fas fa-water"></i></span>
+                <span class="logo-text">Aqua<span>Pulse</span><em>AI</em></span>
+            </a>
+            <nav class="nav" id="nav">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#monitoring" class="nav-link">Live Monitoring</a>
+                <a href="#analysis" class="nav-link">AI Analysis</a>
+                <a href="#waterbodies" class="nav-link">Water Bodies</a>
+                <a href="#reports" class="nav-link">Reports</a>
+                <a href="#about" class="nav-link">About</a>
+            </nav>
+            <div class="header-actions">
+                <button class="btn btn-ghost" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <a href="#dashboard" class="btn btn-primary"><i class="fas fa-rocket"></i> Launch Dashboard</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section id="home" class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="badge"><i class="fas fa-robot"></i> AI Engine Online</span>
+                <h1>Intelligent Water Quality<br><span class="gradient-text">Monitoring & Analysis</span></h1>
+                <p>AquaPulse AI continuously analyzes sensor data from rivers, lakes, and reservoirs to detect contamination, predict pollution risk, and deliver actionable insights — in real time.</p>
+                <div class="hero-buttons">
+                    <a href="#dashboard" class="btn btn-primary btn-lg"><i class="fas fa-play"></i> View Live Dashboard</a>
+                    <a href="#analysis" class="btn btn-ghost btn-lg"><i class="fas fa-brain"></i> Run AI Scan</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><strong id="statSensors">120+</strong><span>Active Sensors</span></div>
+                    <div class="hero-stat"><strong id="statRegions">48</strong><span>Regions</span></div>
+                    <div class="hero-stat"><strong id="statAccuracy">96%</strong><span>AI Accuracy</span></div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="gauge-card glass">
+                    <div class="gauge-header">
+                        <span><i class="fas fa-tint"></i> Water Quality Index</span>
+                        <span class="live-dot">LIVE</span>
+                    </div>
+                    <canvas id="heroGauge" width="260" height="160"></canvas>
+                    <h2 id="heroWqi">82</h2>
+                    <span class="status-badge status-good" id="heroStatus">GOOD</span>
+                </div>
+                <div class="floating-chip chip-a"><i class="fas fa-droplet"></i> pH 7.2</div>
+                <div class="floating-chip chip-b"><i class="fas fa-cloud"></i> Turbidity 4.1 NTU</div>
+                <div class="floating-chip chip-c"><i class="fas fa-bolt"></i> AI Risk: Low</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DASHBOARD ===== -->
+    <section id="dashboard" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-tag">Dashboard</span>
+                <h2>Real-Time Water Quality Overview</h2>
+                <p>Monitor key water parameters and the overall quality index across all connected stations.</p>
+            </div>
+            <div class="overview-grid">
+                <div class="card glass wqi-card">
+                    <div class="card-top">
+                        <span class="card-title"><i class="fas fa-tachometer-alt"></i> Overall WQI</span>
+                        <span class="status-badge status-good" id="dashWqiStatus">GOOD</span>
+                    </div>
+                    <canvas id="dashGauge" width="300" height="170"></canvas>
+                    <div class="wqi-value"><span id="dashWqi">82</span><small>/ 100</small></div>
+                    <p class="wqi-note" id="dashNote">Water quality is excellent. Safe for all uses.</p>
+                </div>
+                <div class="card glass alert-overview">
+                    <div class="card-top">
+                        <span class="card-title"><i class="fas fa-exclamation-triangle"></i> Active Alerts</span>
+                    </div>
+                    <div class="alert-big"><span id="dashAlerts">3</span></div>
+                    <div class="alert-mini">
+                        <div><i class="fas fa-circle severity-critical"></i> Critical <b id="dashCrit">1</b></div>
+                        <div><i class="fas fa-circle severity-warning"></i> Warning <b id="dashWarn">2</b></div>
+                        <div><i class="fas fa-circle severity-info"></i> Info <b id="dashInfo">0</b></div>
+                    </div>
+                    <a href="#waterbodies" class="btn btn-ghost btn-block">View Monitored Sites <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="sensor-grid">
+                <div class="sensor-card glass" data-param="ph">
+                    <div class="sensor-icon"><i class="fas fa-vial"></i></div>
+                    <div class="sensor-info">
+                        <span class="sensor-name">pH Level</span>
+                        <h3><span class="sensor-value">7.2</span> <small>pH</small></h3>
+                        <span class="sensor-range">Safe: 6.5 – 8.5</span>
+                    </div>
+                    <span class="sensor-status status-good">Normal</span>
+                </div>
+                <div class="sensor-card glass" data-param="turb">
+                    <div class="sensor-icon"><i class="fas fa-cloud"></i></div>
+                    <div class="sensor-info">
+                        <span class="sensor-name">Turbidity</span>
+                        <h3><span class="sensor-value">4.1</span> <small>NTU</small></h3>
+                        <span class="sensor-range">Safe: < 5 NTU</span>
+                    </div>
+                    <span class="sensor-status status-good">Normal</span>
+                </div>
+                <div class="sensor-card glass" data-param="tds">
+                    <div class="sensor-icon"><i class="fas fa-flask"></i></div>
+                    <div class="sensor-info">
+                        <span class="sensor-name">TDS</span>
+                        <h3><span class="sensor-value">420</span> <small>ppm</small></h3>
+                        <span class="sensor-range">Safe: < 500 ppm</span>
+                    </div>
+                    <span class="sensor-status status-good">Normal</span>
+                </div>
+                <div class="sensor-card glass" data-param="do">
+                    <div class="sensor-icon"><i class="fas fa-dna"></i></div>
+                    <div class="sensor-info">
+                        <span class="sensor-name">Dissolved O₂</span>
+                        <h3><span class="sensor-value">7.8</span> <small>mg/L</small></h3>
+                        <span class="sensor-range">Safe: > 6 mg/L</span>
+                    </div>
+                    <span class="sensor-status status-good">Normal</span>
+                </div>
+                <div class="sensor-card glass" data-param="temp">
+                    <div class="sensor-icon"><i class="fas fa-temperature-high"></i></div>
+                    <div class="sensor-info">
+                        <span class="sensor-name">Temperature</span>
+                        <h3><span class="sensor-value">24.5</span> <small>°C</small></h3>
+                        <span class="sensor-range">Optimal: 20 – 28</span>
+                    </div>
+                    <span class="sensor-status status-good">Normal</span>
+                </div>
+                <div class="sensor-card glass" data-param="cond">
+                    <div class="sensor-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <div class="sensor-info">
+                        <span class="sensor-name">Conductivity</span>
+                        <h3><span class="sensor-value">680</span> <small>µS/cm</small></h3>
+                        <span class="sensor-range">Safe: < 1000</span>
+                    </div>
+                    <span class="sensor-status status-good">Normal</span>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="card glass">
+                    <div class="card-top">
+                        <span class="card-title"><i class="fas fa-chart-line"></i> pH Trend (24h)</span>
+                        <span class="live-dot">LIVE</span>
+                    </div>
+                    <canvas id="phTrendChart" height="120"></canvas>
+                </div>
+                <div class="card glass">
+                    <div class="card-top">
+                        <span class="card-title"><i class="fas fa-chart-area"></i> Turbidity Trend (24h)</span>
+                        <span class="live-dot">LIVE</span>
+                    </div>
+                    <canvas id="turbTrendChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LIVE MONITORING ===== -->
+    <section id="monitoring" class="section section-alt">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-tag">Live Monitoring</span>
+                <h2>Continuous Stream Monitoring</h2>
+                <p>Dissolved oxygen and temperature tracked over time with automated anomaly detection.</p>
+            </div>
+            <div class="live-bar glass">
+                <div><span class="live-dot">&nbsp;</span> <strong>LIVE FEED</strong></div>
+                <div>Last stream update: <b id="lastUpdate">Just now</b></div>
+                <button class="btn btn-ghost btn-sm" id="refreshBtn"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+            <div class="charts-grid">
+                <div class="card glass">
+                    <div class="card-top">
+                        <span class="card-title"><i class="fas fa-dna"></i> Dissolved Oxygen Over Time</span>
+                    </div>
+                    <canvas id="doStreamChart" height="160"></canvas>
+                </div>
+                <div class="card glass">
+                    <div class="card-top">
+                        <span class="card-title"><i class="fas fa-temperature-high"></i> Temperature Over Time</span>
+                    </div>
+                    <canvas id="tempStreamChart" height="160"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== AI ANALYSIS ===== -->
+    <section id="analysis" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-tag">AI Analysis</span>
+                <h2>Intelligent Contamination Scan</h2>
+                <p>Enter any water body or location and let the AI engine predict its quality and pollution risk.</p>
+            </div>
+            <div class="ai-panel glass">
+                <div class="ai-scan-col">
+                    <div class="ai-scan-icon"><i class="fas fa-microscope"></i></div>
+                    <h3>Run an AI Scan</h3>
+                    <p>AquaPulse AI evaluates sensor data against safety thresholds and ML models to assess contamination risk.</p>
+                    <div class="search-wrap">
+                        <input type="text" id="scanLocation" placeholder="e.g. Yamuna River, Delhi" class="search-input">
+                        <button class="btn btn-primary" id="scanBtn"><i class="fas fa-brain"></i> Analyze</button>
+                    </div>
+                    <p class="hint"><i class="fas fa-info-circle"></i> Try "Yamuna River", "Chilika Lake", or "Tap Water Delhi".</p>
+                </div>
+                <div class="ai-result-col" id="aiResult" style="display:none;">
+                    <div class="ai-result-head">
+                        <i class="fas fa-robot"></i>
+                        <div>
+                            <h3 id="aiResultLocation">Location</h3>
+                            <span class="ai-result-label">AquaPulse AI Prediction</span>
+                        </div>
+                    </div>
+                    <div class="ai-score">
+                        <h2 id="aiResultScore">--</h2>
+                        <span id="aiResultGrade" class="grade-badge">--</span>
+                    </div>
+                    <ul class="ai-findings" id="aiFindings"></ul>
+                    <div class="ai-recommendation" id="aiRecommendation"></div>
+                </div>
+            </div>
+            <div class="how-grid">
+                <div class="how-card glass"><i class="fas fa-satellite-dish"></i><h4>1. Data Collection</h4><p>IoT sensors continuously sample pH, turbidity, TDS, temperature, and dissolved oxygen.</p></div>
+                <div class="how-card glass"><i class="fas fa-robot"></i><h4>2. AI Analysis</h4><p>Machine learning models evaluate parameters against safety thresholds.</p></div>
+                <div class="how-card glass"><i class="fas fa-chart-line"></i><h4>3. Quality Index</h4><p>A 0–100 Water Quality Index is computed in real time by the engine.</p></div>
+                <div class="how-card glass"><i class="fas fa-lightbulb"></i><h4>4. Smart Insights</h4><p>Actionable treatment and safety recommendations are generated instantly.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WATER BODIES ===== -->
+    <section id="waterbodies" class="section section-alt">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-tag">Water Bodies</span>
+                <h2>Monitored Locations</h2>
+                <p>All connected water bodies with live parameter readings and status classification.</p>
+            </div>
+            <div class="card glass">
+                <div class="toolbar">
+                    <input type="text" id="searchInput" placeholder="Search by name, type, status..." class="search-input">
+                    <select id="filterStatus" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Good">Good</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Type</th>
+                                <th>pH</th>
+                                <th>Turbidity</th>
+                                <th>TDS</th>
+                                <th>WQI</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodiesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== REPORTS ===== -->
+    <section id="reports" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-tag">Reports</span>
+                <h2>Water Quality Reports</h2>
+                <p>View historical readings and export the data for record-keeping and compliance.</p>
+            </div>
+            <div class="card glass">
+                <div class="toolbar">
+                    <select id="reportStatus" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Good">Good</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                    <button class="btn btn-primary" id="exportBtn"><i class="fas fa-download"></i> Export CSV</button>
+                </div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Location</th>
+                                <th>pH</th>
+                                <th>Turbidity</th>
+                                <th>TDS</th>
+                                <th>DO</th>
+                                <th>WQI</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="section section-alt">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-tag">About</span>
+                <h2>Built for Cleaner Water</h2>
+                <p>AquaPulse AI combines IoT hardware, machine learning, and cloud analytics to protect water resources worldwide.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature glass"><i class="fas fa-bolt"></i><h4>Real-Time</h4><p>Live sensor streams with sub-second updates and instant alerts.</p></div>
+                <div class="feature glass"><i class="fas fa-brain"></i><h4>Predictive</h4><p>AI forecasts pollution risk up to 30 days in advance.</p></div>
+                <div class="feature glass"><i class="fas fa-shield-halved"></i><h4>Reliable</h4><p>Multi-sensor redundancy and automated self-calibration.</p></div>
+                <div class="feature glass"><i class="fas fa-globe"></i><h4>Scalable</h4><p>Deploy across thousands of stations from one dashboard.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta">
+        <div class="container cta-container">
+            <h2>Ready to protect your water resources?</h2>
+            <p>Deploy AquaPulse AI at your facilities and start making data-driven water decisions today.</p>
+            <div class="cta-buttons">
+                <a href="#dashboard" class="btn btn-primary btn-lg"><i class="fas fa-play"></i> Launch Dashboard</a>
+                <a href="#about" class="btn btn-ghost btn-lg"><i class="fas fa-envelope"></i> Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-brand">
+                <a href="#home" class="logo">
+                    <span class="logo-icon"><i class="fas fa-water"></i></span>
+                    <span class="logo-text">Aqua<span>Pulse</span><em>AI</em></span>
+                </a>
+                <p>AI-powered water quality monitoring & analysis platform for a cleaner, safer future.</p>
+                <div class="socials">
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#monitoring">Live Monitoring</a>
+                <a href="#analysis">AI Analysis</a>
+                <a href="#reports">Reports</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="#about">About</a>
+                <a href="#">Careers</a>
+                <a href="#">Blog</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> hello@aquapulse.ai</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 234-8890</p>
+                <p><i class="fas fa-map-marker-alt"></i> 88 Waterfront Dr, Austin, TX</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">© 2026 AquaPulse AI. All rights reserved. Built for cleaner water.</div>
+        </div>
+    </footer>
+
+    <a href="#home" class="back-top" id="backTop" aria-label="Back to top"><i class="fas fa-chevron-up"></i></a>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
